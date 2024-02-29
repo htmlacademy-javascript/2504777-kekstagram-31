@@ -43,9 +43,10 @@ const extractNumber = (text) => { //eslint-disable-line
 
 // * Molule5-task2
 
+const MINUTES_IN_HOUR = 60;
+
 // 2.1
 const isKeepingUpWorkingHours = (startWorkingDay = '', endWorkingDay = '', startMeeting = '', durationMeeting = 0) => {
-  const MINUTES_IN_HOUR = 60;
 
   const data = [startWorkingDay, endWorkingDay, startMeeting].map((element) => element.split(':'));
   const dataInMinutes = data.map((element) => element[0] * MINUTES_IN_HOUR + Number(element[1]));
@@ -60,12 +61,10 @@ const isKeepingUpWorkingHours = (startWorkingDay = '', endWorkingDay = '', start
 console.log(isKeepingUpWorkingHours('08:00', '17:30', '14:00', 90)); //eslint-disable-line
 
 // 2.2
-const MINUTES_IN_HOUR = 60;
-
 const convertTimeToMinutes = (time) => {
   const data = time.split(':');
   return data[0] * MINUTES_IN_HOUR + Number(data[1]);
-}
+};
 
 const isKeepingUpWorkingHours2 = (startWorkingDay = '', endWorkingDay = '', startMeeting = '', durationMeeting = 0) => {
   startWorkingDay = convertTimeToMinutes(startWorkingDay);
