@@ -1,8 +1,8 @@
 // Задача 1
-const isStringLengthCorrect = (string, maxLength) => string.length <= maxLength;
+const isStringLengthCorrect = (string, maxLength) => string.length <= maxLength; //eslint-disable-line
 
 // Задача 2, вариант 1
-const isPolindrome = (string) => {
+const isPolindrome = (string) => { //eslint-disable-line
   string = string.replaceAll(' ', '').toLowerCase();
 
   let reverseString = '';
@@ -14,7 +14,7 @@ const isPolindrome = (string) => {
 };
 
 // Задача 2, вариант 2
-const isPolindrome2 = (string) => {
+const isPolindrome2 = (string) => { //eslint-disable-line
   string = string.replaceAll(' ', '').toLowerCase();
 
   for (let i = 0; i < Math.floor(string.length / 2); i++) {
@@ -26,7 +26,7 @@ const isPolindrome2 = (string) => {
 };
 
 // Задача 3
-const extractNumber = (text) => {
+const extractNumber = (text) => { //eslint-disable-line
   text = String(text);
 
   let number = '';
