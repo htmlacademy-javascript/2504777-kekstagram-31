@@ -31,4 +31,4 @@ const getPhotoPostingData = () => {
   return {MESSAGES, NAMES, DESCRIPTIONS};
 };
 
-export {getPhotoPostingData};
+export { getPhotoPostingData };
