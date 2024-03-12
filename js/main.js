@@ -1,3 +1,3 @@
-import { createArrayOfPostedPhotos } from './create-array-of-posted-photos.js';
+import { renderThumbnails } from './render-thumbnails.js';
 
-console.log(createArrayOfPostedPhotos()); // eslint-disable-line
+renderThumbnails();
