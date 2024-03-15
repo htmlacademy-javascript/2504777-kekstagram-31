@@ -33,5 +33,8 @@ const getRandomArrayElement = (array) => array[getRandomInteger(0, array.length 
 // Создание массива заданной длины с использованием функции-конструктора
 const createArray = (arrayLength, constructorFunction) => Array.from({length: arrayLength}, constructorFunction);
 
+// Проверка нажатой клавиши на Escape
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export {getRandomInteger, createUniqueNumberGenerator, getRandomArrayElement, createArray};
+
+export { getRandomInteger, createUniqueNumberGenerator, getRandomArrayElement, createArray, isEscapeKey };
