@@ -36,5 +36,32 @@ const createArray = (arrayLength, constructorFunction) => Array.from({length: ar
 // Проверка нажатой клавиши на Escape
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
+// function getPopupHandlers(targetPopup) {
+//   let listener;
+//   let close;
+
+//   const popupHandlers = {
+//     openHandler: function() {
+//       targetPopup.classList.remove('hidden');
+//       document.body.classList.add('modal-open');
+//       document.addEventListener('keydown', listener);
+//     },
+//     closeHandler: function() {
+//       targetPopup.classList.add('hidden');
+//       document.body.classList.remove('modal-open');
+//       document.removeEventListener('keydown', listener);
+//     },
+//     onDocumentEscKeydown: function(evt) {
+//       if (isEscapeKey(evt)) {
+//         close();
+//       }
+//     }
+//   };
+
+//   listener = popupHandlers.onDocumentEscKeydown;
+//   close = popupHandlers.closeHandler;
+
+//   return popupHandlers;
+// }
 
 export { getRandomInteger, createUniqueNumberGenerator, getRandomArrayElement, createArray, isEscapeKey };
