@@ -1,5 +1,8 @@
 const imageUploadForm = document.querySelector('#upload-select-image');
 const hashtagsField = imageUploadForm.querySelector('.text__hashtags');
+const descriptionField = imageUploadForm.querySelector('.text__description');
+const ALLOWED_HASHTAGS_NUMBER = 5;
+const ALLOWED_DESCRIPTION_LENGTH = 140;
 
 const pristine = new Pristine(imageUploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -9,12 +12,11 @@ const pristine = new Pristine(imageUploadForm, {
 
 // Допустимое кол-во #
 const isAllowedNumber = () => {
-  const ALLOWED_HASHTAGS_NUMBER = 5;
   const hashtags = hashtagsField.value.trim().split(' ');
   return hashtags.length <= ALLOWED_HASHTAGS_NUMBER;
 };
 
-pristine.addValidator(hashtagsField, isAllowedNumber, 'Превышено количество хэштегов', 1);
+pristine.addValidator(hashtagsField, isAllowedNumber, 'Превышено допустимое количество хэштегов', 1);
 
 // Валидность #
 let invalidHashtags = [];
@@ -63,6 +65,11 @@ const isRepeated = () => {
 };
 
 pristine.addValidator(hashtagsField, isRepeated, 'Xэштеги повторяются', 3);
+
+// Длина комментария
+const isAllowedLength = () => descriptionField.value.length <= ALLOWED_DESCRIPTION_LENGTH;
+
+pristine.addValidator(descriptionField, isAllowedLength, `Длина комментария не может быть больше ${ALLOWED_DESCRIPTION_LENGTH} символов`);
 
 const validateByPristine = () => pristine.validate();
 
