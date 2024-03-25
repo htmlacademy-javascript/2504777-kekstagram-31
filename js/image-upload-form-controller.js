@@ -1,5 +1,7 @@
 import { isEscapeKey } from './util.js';
-import { validateByPristine } from './validate-image-upload-form.js';
+import { validateByPristine, resetValidation } from './validate-image-upload-form.js';
+import { doScaleSmaller, doScaleBigger, resetImageScale } from './change-image-scale.js';
+import { initEffectsSlider } from './init-effects-slider.js';
 
 const imageUploadForm = document.querySelector('#upload-select-image');
 const uploadFile = imageUploadForm.querySelector('.img-upload__input');
@@ -8,6 +10,9 @@ const exitImageEditForm = imageUploadForm.querySelector('.img-upload__cancel');
 const hashtagsField = imageUploadForm.querySelector('.text__hashtags');
 const descriptionField = imageUploadForm.querySelector('.text__description');
 
+const imageUploadScale = imageUploadForm.querySelector('.scale');
+
+// Открытие/закрытие формы
 const onDocumentEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     if (evt.target === hashtagsField || evt.target === descriptionField) {
@@ -36,9 +41,12 @@ function openEditForm () {
 function closeEditForm () {
   imageEditForm.classList.add('hidden');
   document.body.classList.remove('modal-open');
+
   uploadFile.value = '';
   hashtagsField.value = '';
   descriptionField.value = '';
+  resetValidation();
+  resetImageScale();
 
   document.removeEventListener('keydown', onDocumentEscKeydown);
 }
@@ -51,6 +59,7 @@ exitImageEditForm.addEventListener('click', () => {
   closeEditForm();
 });
 
+// Валидация формы
 imageUploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   const isValidate = validateByPristine();
@@ -62,4 +71,14 @@ imageUploadForm.addEventListener('submit', (evt) => {
   }
 });
 
+// Изменение масштаба загружаемой фотографии
+imageUploadScale.addEventListener('click', (evt) => {
+  if (evt.target.closest('.scale__control--smaller')) {
+    doScaleSmaller();
+  } else if (evt.target.closest('.scale__control--bigger')) {
+    doScaleBigger();
+  }
+});
+
+initEffectsSlider();
 
