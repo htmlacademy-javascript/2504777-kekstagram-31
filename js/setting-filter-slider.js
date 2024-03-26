@@ -4,7 +4,6 @@ const slider = sliderContainer.querySelector('.effect-level__slider');
 const imagePreview = document.querySelector('.img-upload__preview img');
 
 const effectLevel = document.querySelector('.effect-level__value');
-const effectsItems = document.querySelectorAll('.effects__radio');
 
 noUiSlider.create(slider, {
   range: {
@@ -87,30 +86,41 @@ const filterSettings = {
   },
 };
 
+const getCurrentEffect = () => document.querySelector('.effects__radio:checked').value;
+
 const getFilterValue = (effect, level) => {
   const filter = filterSettings[effect];
   if (effect === 'none') {
     return `${filter.style}`;
   }
-  return `${filter.style}(${level}${filter.unit ? filter.unit : ''})`;
+  return `${filter.style}(${level}${filter.unit || ''})`;
 };
 
-slider.noUiSlider.on('update', () => {
-  const appliedEffect = document.querySelector('.effects__radio:checked').value;
+const setFilter = (effect, effectLevelValue = 1) => {
+  imagePreview.style.filter = getFilterValue(effect, effectLevelValue);
+};
 
-  effectLevel.value = slider.noUiSlider.get(); // записываем значение ползунка в скрытое поле
-  imagePreview.style.filter = getFilterValue(appliedEffect, effectLevel.value); // добавляем стили
-  console.log(imagePreview.style.filter); // eslint-disable-line
-});
+const resetFilter = () => {
+  setFilter('none');
+};
 
-const updateSliderOptions = (evt) => {
-  const filter = filterSettings[evt.target.value];
+const changeSliderVisibility = () => {
+  const effect = getCurrentEffect();
 
-  if (filter.hidden) {
+  if (filterSettings[effect].hidden) {
     sliderContainer.classList.add('hidden');
   } else {
     sliderContainer.classList.remove('hidden');
   }
+};
+
+slider.noUiSlider.on('update', () => {
+  effectLevel.value = slider.noUiSlider.get();
+  setFilter(getCurrentEffect(), effectLevel.value);
+});
+
+const updateSliderOptions = (evt) => {
+  const filter = filterSettings[evt.target.value];
 
   slider.noUiSlider.updateOptions({
     range: {
@@ -122,13 +132,5 @@ const updateSliderOptions = (evt) => {
   });
 };
 
-const initEffectsSlider = () => {
-
-  effectsItems.forEach((effectItem) => {
-    effectItem.addEventListener('change', updateSliderOptions);
-  });
-
-};
-
-export { initEffectsSlider };
+export { resetFilter, updateSliderOptions, changeSliderVisibility };
 
