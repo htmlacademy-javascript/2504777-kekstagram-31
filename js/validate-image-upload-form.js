@@ -72,5 +72,6 @@ const isAllowedLength = () => descriptionField.value.length <= ALLOWED_DESCRIPTI
 pristine.addValidator(descriptionField, isAllowedLength, `Длина комментария не может быть больше ${ALLOWED_DESCRIPTION_LENGTH} символов`);
 
 const validateByPristine = () => pristine.validate();
+const resetValidation = () => pristine.reset();
 
-export { validateByPristine };
+export { validateByPristine, resetValidation };
