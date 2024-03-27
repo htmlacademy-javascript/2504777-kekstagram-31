@@ -1,5 +1,5 @@
 import { isEscapeKey } from './util.js';
-import { getPhotoById, renderComments, renderPopupContent } from './image-popup-content-render.js';
+import { getPhotoById, renderComments, renderPopupContent } from './render-image-popup-content.js';
 
 const picturesContainer = document.querySelector('.pictures');
 const imagePopup = document.querySelector('.big-picture');
