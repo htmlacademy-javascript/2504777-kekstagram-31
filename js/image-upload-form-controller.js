@@ -2,6 +2,8 @@ import { isEscapeKey } from './util.js';
 import { validateByPristine, resetValidation } from './validate-image-upload-form.js';
 import { doScaleSmaller, doScaleBigger, resetImageScale } from './change-image-scale.js';
 import { resetFilter, updateSliderOptions, changeSliderVisibility } from './setting-filter-slider.js';
+import { addSuccessMessage } from './send-success.js';
+import { addErrorMessage } from './send-error.js';
 
 const imageUploadForm = document.querySelector('#upload-select-image');
 const uploadFile = imageUploadForm.querySelector('.img-upload__input');
@@ -64,16 +66,37 @@ exitImageEditForm.addEventListener('click', (evt) => {
 });
 
 // Валидация формы
-imageUploadForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const isValidate = validateByPristine();
+const setUploadFormSubmit = () => {
+  imageUploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValidate = validateByPristine();
 
-  if(isValidate) {
-    console.log('Форма валидна'); //eslint-disable-line
-  } else {
-    console.log('Форма невалидна'); //eslint-disable-line
-  }
-});
+    if(isValidate) {
+      console.log('Форма валидна'); //eslint-disable-line
+      const formData = new FormData(evt.target);
+
+      fetch('https://31.javascript.htmlacademy.pro/kekstagram',
+        {
+          method: 'POST',
+          body: formData,
+        },
+      )
+        .then((response) => {
+          if (response.ok) {
+            closeEditForm ();
+            addSuccessMessage();
+          } else {
+            throw new Error ('Ошибка загрузки файла');
+          }
+        })
+        .catch(() => {
+          addErrorMessage();
+        });
+    }
+  });
+};
+
+setUploadFormSubmit();
 
 // Изменение масштаба загружаемой фотографии
 imageUploadScale.addEventListener('click', (evt) => {
