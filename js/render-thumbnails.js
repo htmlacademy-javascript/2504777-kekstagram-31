@@ -1,10 +1,10 @@
-import { getPostedPhotos } from './posted-photo-gallery.js';
+// import { getPostedPhotos } from './posted-photo-gallery.js';
 
 const picturesContainer = document.querySelector('.pictures');
 const templatePictureContent = document.querySelector('#picture').content;
 const templatePicture = templatePictureContent.querySelector('.picture');
 
-const postedPhotos = getPostedPhotos();
+// const postedPhotos = getPostedPhotos();
 
 const createThumbnail = ({id, url, description, likes, comments}) => {
   const newThumbnail = templatePicture.cloneNode(true);
@@ -21,7 +21,7 @@ const createThumbnail = ({id, url, description, likes, comments}) => {
   return newThumbnail;
 };
 
-const renderThumbnails = () => {
+const renderThumbnails = (postedPhotos) => {
   const fragment = document.createDocumentFragment();
 
   postedPhotos.forEach((photo) => {

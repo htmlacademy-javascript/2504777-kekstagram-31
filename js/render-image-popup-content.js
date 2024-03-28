@@ -1,6 +1,7 @@
-import { getPostedPhotos } from './posted-photo-gallery.js';
+import { getPhotoById } from './posted-photo-gallery.js';
+// import { getPostedPhotos } from './posted-photo-gallery.js';
 
-const postedPhotos = getPostedPhotos();
+// const postedPhotos = getPostedPhotos();
 
 const commentsContainer = document.querySelector('.social__comments');
 const commentsShownCount = document.querySelector('.social__comment-shown-count');
@@ -8,7 +9,6 @@ const commentsTotalCount = document.querySelector('.social__comment-total-count'
 const commentTemplate = commentsContainer.querySelector('.social__comment');
 const commentsLoader = document.querySelector('.comments-loader');
 
-const getPhotoById = (id) => postedPhotos.find((photo) => photo.id === id);
 
 const renderComment = ({avatar, name, message}) => {
   const newComment = commentTemplate.cloneNode(true);
