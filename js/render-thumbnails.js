@@ -1,10 +1,6 @@
-import { getPostedPhotos } from './posted-photo-gallery.js';
-
 const picturesContainer = document.querySelector('.pictures');
 const templatePictureContent = document.querySelector('#picture').content;
 const templatePicture = templatePictureContent.querySelector('.picture');
-
-const postedPhotos = getPostedPhotos();
 
 const createThumbnail = ({id, url, description, likes, comments}) => {
   const newThumbnail = templatePicture.cloneNode(true);
@@ -21,7 +17,7 @@ const createThumbnail = ({id, url, description, likes, comments}) => {
   return newThumbnail;
 };
 
-const renderThumbnails = () => {
+const renderThumbnails = (postedPhotos) => {
   const fragment = document.createDocumentFragment();
 
   postedPhotos.forEach((photo) => {
@@ -33,18 +29,3 @@ const renderThumbnails = () => {
 };
 
 export { renderThumbnails };
-
-
-/* Если потребуется универсальная функция для отрисовки элементов
-
-const renderElements = (sourceData, constructorFunction, placeToAdd) => {
-  const fragment = document.createDocumentFragment();
-
-  sourceData.forEach((elem) => {
-    const element = constructorFunction(elem);
-    fragment.append(element);
-  });
-
-  placeToAdd.append(fragment);
-};
-*/
