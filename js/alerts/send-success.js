@@ -1,5 +1,5 @@
 
-import { isEscapeKey } from './util.js';
+import { isEscapeKey } from '../util.js';
 
 const templateSuccessContent = document.querySelector('#success').content;
 const templateSuccess = templateSuccessContent.querySelector('.success');

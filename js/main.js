@@ -1,17 +1,11 @@
 import { renderThumbnails } from './render-thumbnails.js';
 import { savePostedPhotos } from './posted-photo-gallery.js';
-import { showDataErrorMessage } from './get-data-error.js';
-import './image-popup-controller.js';
-import './image-upload-form-controller.js';
+import { showDataErrorMessage } from './alerts/get-data-error.js';
+import { getData } from './api.js';
+import { initImagePopup } from './popup/init-image-popup.js';
+import { initImageUploadForm } from './upload-form/init-image-upload-form.js';
 
-fetch('https://31.javascript.htmlacademy.pro/kekstagram/data')
-  .then((response) => {
-    if (response.ok) {
-      return response.json();
-    } else {
-      throw new Error ('Не удалось загрузить данные');
-    }
-  })
+getData()
   .then((photos) => {
     renderThumbnails(photos);
     savePostedPhotos(photos);
@@ -19,3 +13,6 @@ fetch('https://31.javascript.htmlacademy.pro/kekstagram/data')
   .catch(() => {
     showDataErrorMessage();
   });
+
+initImagePopup();
+initImageUploadForm();

@@ -1,14 +1,10 @@
-import { getPhotoById } from './posted-photo-gallery.js';
-// import { getPostedPhotos } from './posted-photo-gallery.js';
-
-// const postedPhotos = getPostedPhotos();
+import { getPhotoById } from '../posted-photo-gallery.js';
 
 const commentsContainer = document.querySelector('.social__comments');
 const commentsShownCount = document.querySelector('.social__comment-shown-count');
-const commentsTotalCount = document.querySelector('.social__comment-total-count');
+
 const commentTemplate = commentsContainer.querySelector('.social__comment');
 const commentsLoader = document.querySelector('.comments-loader');
-
 
 const renderComment = ({avatar, name, message}) => {
   const newComment = commentTemplate.cloneNode(true);
@@ -58,14 +54,4 @@ const renderComments = (openPhotoId, isCommentsLoaderClick) => {
   }
 };
 
-const renderPopupContent = ({id, url, likes, description, comments}) => {
-  document.querySelector('.big-picture__img img').src = url;
-  document.querySelector('.likes-count').textContent = likes;
-  document.querySelector('.social__caption').textContent = description;
-  commentsTotalCount.textContent = comments.length;
-  commentsContainer.innerHTML = '';
-
-  renderComments(id);
-};
-
-export { getPhotoById, renderPopupContent, renderComments};
+export { renderComments };

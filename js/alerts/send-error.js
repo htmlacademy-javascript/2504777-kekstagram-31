@@ -1,4 +1,4 @@
-import { isEscapeKey } from './util.js';
+import { isEscapeKey } from '../util.js';
 
 const templateErrorContent = document.querySelector('#error').content;
 const templateError = templateErrorContent.querySelector('.error');
