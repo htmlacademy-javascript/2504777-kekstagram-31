@@ -1,5 +1,5 @@
 import { renderThumbnails } from './render-thumbnails.js';
-import { debounce } from './util.js';
+import { debounce } from '../util.js';
 
 const filtersContainer = document.querySelector('.img-filters ');
 const filtersForm = filtersContainer.querySelector('.img-filters__form');
