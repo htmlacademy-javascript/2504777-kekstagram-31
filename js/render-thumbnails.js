@@ -17,10 +17,17 @@ const createThumbnail = ({id, url, description, likes, comments}) => {
   return newThumbnail;
 };
 
-const renderThumbnails = (postedPhotos) => {
+const removeThumbnails = () => {
+  const thumbnails = picturesContainer.querySelectorAll('.picture');
+  thumbnails.forEach((thumbnail) => thumbnail.remove());
+};
+
+const renderThumbnails = (photosData) => {
+  removeThumbnails();
+
   const fragment = document.createDocumentFragment();
 
-  postedPhotos.forEach((photo) => {
+  photosData.forEach((photo) => {
     const thumbnail = createThumbnail(photo);
     fragment.append(thumbnail);
   });
