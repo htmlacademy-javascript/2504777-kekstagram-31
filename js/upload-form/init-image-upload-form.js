@@ -1,8 +1,8 @@
 import { isEscapeKey } from '../util.js';
 import { validateByPristine, resetValidation } from './validate-image-upload-form.js';
 import { setImageUploadScale, resetImageScale } from './change-image-scale.js';
-import { resetFilter} from '../filters/using-filters.js';
-import { setImageFilters, changeSliderVisibility } from '../filters/noUiSlider-setting.js';
+import { resetFilter} from '../upload-image-filters/using-filters.js';
+import { setImageFilters, changeSliderVisibility } from '../upload-image-filters/noUiSlider-setting.js';
 import { sendData } from '../api.js';
 import { addSuccessMessage } from '../alerts/send-success.js';
 import { addErrorMessage } from '../alerts/send-error.js';

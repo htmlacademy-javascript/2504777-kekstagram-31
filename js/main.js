@@ -4,11 +4,13 @@ import { showDataErrorMessage } from './alerts/get-data-error.js';
 import { getData } from './api.js';
 import { initImagePopup } from './popup/init-image-popup.js';
 import { initImageUploadForm } from './upload-form/init-image-upload-form.js';
+import { setThumbnailsFilters } from './thumbnails-filters.js';
 
 getData()
   .then((photos) => {
     renderThumbnails(photos);
     savePostedPhotos(photos);
+    setThumbnailsFilters(photos);
   })
   .catch(() => {
     showDataErrorMessage();
