@@ -6,7 +6,7 @@ import { setImageFilters, changeSliderVisibility } from './image-filters/noUiSli
 import { sendData } from '../api.js';
 import { addSuccessMessage } from '../alerts/send-success.js';
 import { addErrorMessage } from '../alerts/send-error.js';
-import { showImagePreview } from './upload-image.js';
+import { showImagePreview } from './image-preview.js';
 
 const imageUploadForm = document.querySelector('#upload-select-image');
 const uploadFile = imageUploadForm.querySelector('.img-upload__input');
