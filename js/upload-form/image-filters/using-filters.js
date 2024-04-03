@@ -1,6 +1,6 @@
 const imagePreview = document.querySelector('.img-upload__preview img');
 
-const FiltersSettings = {
+const filtersSettings = {
   none: {
     range: {
       min: 0,
@@ -60,10 +60,10 @@ const FiltersSettings = {
   },
 };
 
-const getFiltersSettings = () => FiltersSettings;
+const getFiltersSettings = () => filtersSettings;
 
 const getFilterValue = (effect, level) => {
-  const filter = FiltersSettings[effect];
+  const filter = filtersSettings[effect];
   if (effect === 'none') {
     return `${filter.style}`;
   }
