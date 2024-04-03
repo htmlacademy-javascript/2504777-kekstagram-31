@@ -1,6 +1,6 @@
 import { renderThumbnails } from './thumbnails/render-thumbnails.js';
 import { savePostedPhotos } from './posted-photo-gallery.js';
-import { showDataErrorMessage } from './alerts/get-data-error.js';
+import { showToastError } from './alerts/show-toast-error.js';
 import { getData } from './api.js';
 import { initImagePopup } from './popup/init-image-popup.js';
 import { initImageUploadForm } from './upload-form/init-image-upload-form.js';
@@ -13,7 +13,7 @@ getData()
     setThumbnailsFilters(photos);
   })
   .catch(() => {
-    showDataErrorMessage();
+    showToastError();
   });
 
 initImagePopup();
