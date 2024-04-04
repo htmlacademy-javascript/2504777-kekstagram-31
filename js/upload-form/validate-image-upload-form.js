@@ -1,8 +1,24 @@
 const imageUploadForm = document.querySelector('#upload-select-image');
 const hashtagsField = imageUploadForm.querySelector('.text__hashtags');
 const descriptionField = imageUploadForm.querySelector('.text__description');
-const ALLOWED_HASHTAGS_NUMBER = 5;
-const ALLOWED_DESCRIPTION_LENGTH = 140;
+
+const AllowedValue = {
+  HASHTAGS:
+  {
+    NUMBER: 5,
+    MAX_SYMBOLS: 20,
+    MIN_SYMBOLS: 2,
+  },
+  DESCRIPTION_LENGTH: 140,
+};
+
+const { HASHTAGS, DESCRIPTION_LENGTH } = AllowedValue;
+
+const VALID_HASHTAGS = /^#[a-zа-яё0-9]{1,19}$/i;
+
+let errorMessage = '';
+
+const getHashtagsFieldValue = () => hashtagsField.value.replace(/\s+/g, ' ').trim(' ');
 
 const pristine = new Pristine(imageUploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -10,66 +26,66 @@ const pristine = new Pristine(imageUploadForm, {
   errorTextClass: 'img-upload__field-wrapper--error',
 });
 
-// Допустимое кол-во #
-const isAllowedNumber = () => {
-  const hashtags = hashtagsField.value.trim().split(' ');
-  return hashtags.length <= ALLOWED_HASHTAGS_NUMBER;
-};
+const ValidationRules = [
+  {
+    check: (hashtags) => hashtags.some((hashtag) => !hashtag.startsWith('#')),
+    error: 'Хэштег должен начинаться с символа # (решётка)',
+  },
+  {
+    check: (hashtags) => hashtags.some((hashtag) => hashtag.length < HASHTAGS.MIN_SYMBOLS),
+    error: 'Хештег не может состоять только из одной решётки',
+  },
+  {
+    check: (hashtags) => hashtags.some((hashtag) => hashtag.slice(1).includes('#')),
+    error: 'Хештеги разделяются пробелами',
+  },
+  {
+    check: (hashtags) => hashtags.some((hashtag) => hashtag.length > HASHTAGS.MAX_SYMBOLS),
+    error: 'Mаксимальная длина одного хэштега 20 символов, включая решётку',
+  },
+  {
+    check: (hashtags) => hashtags.some((hashtag) => !VALID_HASHTAGS.test(hashtag)),
+    error: 'Хэштег содержит недопустимые символы',
+  },
+  {
+    check: (hashtags) => hashtags.some((hashtag, num, array) => array.includes(hashtag, num + 1)),
+    error: 'Oдин и тот же хэштег не может быть использован дважды',
+  },
+  {
+    check: (hashtags) => hashtags.length > HASHTAGS.NUMBER,
+    error: `Нельзя указать больше ${HASHTAGS.NUMBER} хэштегов`,
+  },
+];
 
-pristine.addValidator(hashtagsField, isAllowedNumber, 'Превышено допустимое количество хэштегов', 1);
+const isValidationRulesFollowed = () => {
+  errorMessage = '';
+  const hashtags = getHashtagsFieldValue().toLowerCase().split(' ');
+
+  return ValidationRules.every((rule) => {
+
+    const isRuleBroken = rule.check(hashtags);
+    if (isRuleBroken) {
+      errorMessage = rule.error;
+    }
+    return !isRuleBroken;
+  });
+};
 
 // Валидность #
-let invalidHashtags = [];
-
 const isValid = () => {
-  const hashtagsFieldValue = hashtagsField.value.trim();
-  if (!hashtagsFieldValue) {
+  if (!getHashtagsFieldValue()) {
     return true;
   }
-  const validHashtag = /^#[a-zа-яё0-9]{1,19}$/i;
-  const hashtags = hashtagsFieldValue.split(' ');
-
-  invalidHashtags = [];
-
-  hashtags.forEach((hashtag) => {
-    if (!validHashtag.test(hashtag)) {
-      invalidHashtags.push(hashtag);
-    }
-  });
-
-  return invalidHashtags.length === 0;
+  return isValidationRulesFollowed();
 };
 
-const getHashtagsErrorMessage = () => {
-  if (invalidHashtags.length === 1) {
-    return `Введен невалидный хэштег: ${invalidHashtags[0]}`;
-  }
-  return `Введены невалидные хэштеги: ${invalidHashtags.join(', ')}`;
-};
+const getErrorMessage = () => errorMessage;
 
-pristine.addValidator(hashtagsField, isValid, getHashtagsErrorMessage, 2);
+pristine.addValidator(hashtagsField, isValid, getErrorMessage, 2);
 
-let checkedHashtags = [];
+const isAllowedLength = () => descriptionField.value.length <= DESCRIPTION_LENGTH;
 
-// Повторение #
-const isRepeated = () => {
-  const hashtags = hashtagsField.value.trim().split(' ');
-  checkedHashtags = [];
-
-  hashtags.forEach((hashtag) => {
-    if (!checkedHashtags.includes(hashtag)) {
-      checkedHashtags.push(hashtag);
-    }
-  });
-  return hashtags.length === checkedHashtags.length;
-};
-
-pristine.addValidator(hashtagsField, isRepeated, 'Xэштеги повторяются', 3);
-
-// Длина комментария
-const isAllowedLength = () => descriptionField.value.length <= ALLOWED_DESCRIPTION_LENGTH;
-
-pristine.addValidator(descriptionField, isAllowedLength, `Длина комментария не может быть больше ${ALLOWED_DESCRIPTION_LENGTH} символов`);
+pristine.addValidator(descriptionField, isAllowedLength, `Длина комментария не может быть больше ${DESCRIPTION_LENGTH} символов`);
 
 const validateByPristine = () => pristine.validate();
 const resetValidation = () => pristine.reset();
