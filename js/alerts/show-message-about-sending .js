@@ -3,13 +3,15 @@ import { isEscapeKey } from '../util.js';
 let message;
 let sendingResult;
 
-const onDocumentEscKeydown = (evt) => {
+const onBodyEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
+    evt.preventDefault();
     removeMessage();
+    evt.stopPropagation();
   }
 };
 
-const onDocumentClick = (evt) => {
+const onBodyClick = (evt) => {
   if (!evt.target.closest(`.${sendingResult}__inner`)) {
     removeMessage();
   }
@@ -27,15 +29,15 @@ const showMessage = (result) => {
   closeButton.addEventListener('click', () => {
     removeMessage();
   });
-  document.addEventListener('keydown', onDocumentEscKeydown);
-  document.addEventListener('click', onDocumentClick);
+  document.body.addEventListener('keydown', onBodyEscKeydown);
+  document.body.addEventListener('click', onBodyClick);
 
   document.body.append(message);
 };
 
 function removeMessage () {
-  document.removeEventListener('keydown', onDocumentEscKeydown);
-  document.removeEventListener('click', onDocumentClick);
+  document.body.removeEventListener('keydown', onBodyEscKeydown);
+  document.body.removeEventListener('click', onBodyClick);
   message.remove();
 }
 
