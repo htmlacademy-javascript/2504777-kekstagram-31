@@ -2,7 +2,6 @@ import { getPhotoById } from '../posted-photo-gallery.js';
 
 const commentsContainer = document.querySelector('.social__comments');
 const commentsShownCount = document.querySelector('.social__comment-shown-count');
-
 const commentTemplate = commentsContainer.querySelector('.social__comment');
 const commentsLoader = document.querySelector('.comments-loader');
 

@@ -4,9 +4,8 @@ import { setImageUploadScale, resetImageScale } from './change-image-scale.js';
 import { resetFilter} from './image-filters/using-filters.js';
 import { setImageFilters, changeSliderVisibility } from './image-filters/noUiSlider-setting.js';
 import { sendData } from '../api.js';
-import { addSuccessMessage } from '../alerts/send-success.js';
-import { addErrorMessage } from '../alerts/send-error.js';
-import { showImagePreview } from './upload-image.js';
+import { showMessage } from '../alerts/show-message-about-sending .js';
+import { createImagePreview } from './image-preview.js';
 
 const imageUploadForm = document.querySelector('#upload-select-image');
 const uploadFile = imageUploadForm.querySelector('.img-upload__input');
@@ -15,6 +14,13 @@ const exitImageEditForm = imageUploadForm.querySelector('.img-upload__cancel');
 const hashtagsField = imageUploadForm.querySelector('.text__hashtags');
 const descriptionField = imageUploadForm.querySelector('.text__description');
 const submitButton = imageUploadForm.querySelector('#upload-submit');
+
+const Message = {
+  SUCCESS: 'success',
+  ERROR: 'error',
+};
+
+const {SUCCESS, ERROR} = Message;
 
 const onDocumentEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -66,10 +72,10 @@ const setUploadFormSubmit = () => {
       sendData(new FormData(evt.target))
         .then(() => {
           closeEditForm();
-          addSuccessMessage();
+          showMessage(SUCCESS);
         })
         .catch(() => {
-          addErrorMessage();
+          showMessage(ERROR);
         })
         .finally(() => {
           blockSubmitButton(false);
@@ -80,8 +86,9 @@ const setUploadFormSubmit = () => {
 
 const initImageUploadForm = () => {
   uploadFile.addEventListener('change', () => {
-    openEditForm();
-    showImagePreview();
+    if (createImagePreview()) {
+      openEditForm();
+    }
   });
 
   exitImageEditForm.addEventListener('click', (evt) => {
