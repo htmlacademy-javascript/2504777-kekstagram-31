@@ -4,9 +4,14 @@ import { debounce } from '../util.js';
 const filtersContainer = document.querySelector('.img-filters ');
 const filtersForm = filtersContainer.querySelector('.img-filters__form');
 
-const FILTER_DEFAULT = 'filter-default';
-const FILTER_RANDOM = 'filter-random';
-const FILTER_DISCUSSED = 'filter-discussed';
+const Filters = {
+  DEFAULT: 'filter-default',
+  RANDOM: 'filter-random',
+  DISCUSSED: 'filter-discussed',
+};
+
+const {DEFAULT, RANDOM, DISCUSSED} = Filters;
+
 const RANDOM_THUMBNAILS_TO_SHOW = 10;
 const BUTTON_ACTIVE_CLASS = 'img-filters__button--active';
 
@@ -16,13 +21,13 @@ const applyFilters = (photos, target) => {
   let filteredPhotos = [];
 
   switch (target.id) {
-    case FILTER_DEFAULT:
+    case DEFAULT:
       filteredPhotos = photos;
       break;
-    case FILTER_RANDOM:
+    case RANDOM:
       filteredPhotos = photos.toSorted(() => 0.5 - Math.random()).slice(0, RANDOM_THUMBNAILS_TO_SHOW);
       break;
-    case FILTER_DISCUSSED:
+    case DISCUSSED:
       filteredPhotos = photos.toSorted((a, b) => b.comments.length - a.comments.length);
       break;
   }
@@ -45,7 +50,7 @@ const setThumbnailsFilters = (photosData) => {
     if (!target.closest('.img-filters__button')) {
       return;
     }
-    if (target === activeButton && !target.closest(`#${FILTER_RANDOM}`)) {
+    if (target === activeButton && !target.closest(`#${RANDOM}`)) {
       return;
     }
 

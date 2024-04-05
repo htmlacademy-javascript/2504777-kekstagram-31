@@ -2,6 +2,8 @@ const imageUploadForm = document.querySelector('#upload-select-image');
 const hashtagsField = imageUploadForm.querySelector('.text__hashtags');
 const descriptionField = imageUploadForm.querySelector('.text__description');
 
+let errorMessage = '';
+
 const AllowedValue = {
   HASHTAGS:
   {
@@ -12,21 +14,14 @@ const AllowedValue = {
   DESCRIPTION_LENGTH: 140,
 };
 
-const { HASHTAGS, DESCRIPTION_LENGTH } = AllowedValue;
-
+const {HASHTAGS, DESCRIPTION_LENGTH} = AllowedValue;
 const VALID_HASHTAGS = /^#[a-zа-яё0-9]{1,19}$/i;
 
-let errorMessage = '';
-
-const getHashtagsFieldValue = () => hashtagsField.value.replace(/\s+/g, ' ').trim(' ');
-
-const pristine = new Pristine(imageUploadForm, {
-  classTo: 'img-upload__field-wrapper',
-  errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'img-upload__field-wrapper--error',
-});
-
 const ValidationRules = [
+  {
+    check: (hashtags) => hashtags.length > HASHTAGS.NUMBER,
+    error: `Нельзя указать больше ${HASHTAGS.NUMBER} хэштегов`,
+  },
   {
     check: (hashtags) => hashtags.some((hashtag) => !hashtag.startsWith('#')),
     error: 'Хэштег должен начинаться с символа # (решётка)',
@@ -51,11 +46,16 @@ const ValidationRules = [
     check: (hashtags) => hashtags.some((hashtag, num, array) => array.includes(hashtag, num + 1)),
     error: 'Oдин и тот же хэштег не может быть использован дважды',
   },
-  {
-    check: (hashtags) => hashtags.length > HASHTAGS.NUMBER,
-    error: `Нельзя указать больше ${HASHTAGS.NUMBER} хэштегов`,
-  },
 ];
+
+const getHashtagsFieldValue = () => hashtagsField.value.replace(/\s+/g, ' ').trim(' ');
+const isAllowedLength = () => descriptionField.value.length <= DESCRIPTION_LENGTH;
+
+const pristine = new Pristine(imageUploadForm, {
+  classTo: 'img-upload__field-wrapper',
+  errorTextParent: 'img-upload__field-wrapper',
+  errorTextClass: 'img-upload__field-wrapper--error',
+});
 
 const isValidationRulesFollowed = () => {
   errorMessage = '';
@@ -71,7 +71,6 @@ const isValidationRulesFollowed = () => {
   });
 };
 
-// Валидность #
 const isValid = () => {
   if (!getHashtagsFieldValue()) {
     return true;
@@ -82,8 +81,6 @@ const isValid = () => {
 const getErrorMessage = () => errorMessage;
 
 pristine.addValidator(hashtagsField, isValid, getErrorMessage, 2);
-
-const isAllowedLength = () => descriptionField.value.length <= DESCRIPTION_LENGTH;
 
 pristine.addValidator(descriptionField, isAllowedLength, `Длина комментария не может быть больше ${DESCRIPTION_LENGTH} символов`);
 

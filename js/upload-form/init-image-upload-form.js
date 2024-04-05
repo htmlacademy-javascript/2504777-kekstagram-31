@@ -20,6 +20,8 @@ const Message = {
   ERROR: 'error',
 };
 
+const {SUCCESS, ERROR} = Message;
+
 const onDocumentEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     if (evt.target === hashtagsField || evt.target === descriptionField) {
@@ -70,10 +72,10 @@ const setUploadFormSubmit = () => {
       sendData(new FormData(evt.target))
         .then(() => {
           closeEditForm();
-          showMessage(Message.SUCCESS);
+          showMessage(SUCCESS);
         })
         .catch(() => {
-          showMessage(Message.ERROR);
+          showMessage(ERROR);
         })
         .finally(() => {
           blockSubmitButton(false);
